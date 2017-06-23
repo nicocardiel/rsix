@@ -22,20 +22,27 @@ def main(args=None):
     # @ <number> <label>
     # where <number> is the number of images to be coadded and
     # <label> is the name of the output file
-    parser.add_argument("output_fits_filename",
-                        help="filename of output FITS image, or @ symbol")
-    parser.add_argument("--method",
-                        help="Combination method: sum (default), mean, median",
+    parser.add_argument('output_fits_filename',
+                        help='filename of output FITS image, or @ symbol')
+    parser.add_argument('--method',
+                        help='Combination method: sum (default), mean, median',
                         default='sum',
                         type=str,
                         choices=['sum', 'mean', 'median'])
-    parser.add_argument("--add_header",
-                        help="add header of first image: yes/no (default=yes)",
-                        default="yes")
-    parser.add_argument("--noclobber",
-                        help="avoid overwriting existing file",
+    parser.add_argument('--extnum',
+                        help='Extension number in input files (note that ' +
+                             'first extension is 1 = default value)',
+                        default=1, type=int)
+    parser.add_argument('--add_header',
+                        help='Add header of first image',
+                        action='store_true')
+    parser.add_argument('--noclobber',
+                        help='Avoid overwriting existing file',
                         action='store_true')
     args = parser.parse_args(args)
+
+    # first extension is number 1 for the user
+    extnum = args.extnum - 1
 
     if args.output_fits_filename == "@":
         dict_of_fileinfo = subsets_of_fileinfo_from_txt(args.input_list)
@@ -67,7 +74,7 @@ def main(args=None):
         for i in range(number_of_files):
             infile = list_of_files[i]
             hdulist = fits.open(infile)
-            image_header = hdulist[0].header
+            image_header = hdulist[extnum].header
             hdulist.close()
             naxis1[i] = image_header['naxis1']
             naxis2[i] = image_header['naxis2']
@@ -94,9 +101,9 @@ def main(args=None):
                 print("<--" + infile + " (image " + str(i + 1) + " of " +
                       str(number_of_files) + ')')
                 hdulist = fits.open(infile)
-                data = hdulist[0].data
+                data = hdulist[extnum].data
                 if i == 0:
-                    image_header_first_frame = hdulist[0].header
+                    image_header_first_frame = hdulist[extnum].header
                 hdulist.close()
                 image2d += data
             # average result when required
@@ -111,9 +118,9 @@ def main(args=None):
                 print("<--" + infile + " (image " + str(i + 1) + " of " +
                       str(number_of_files) + ')')
                 hdulist = fits.open(infile)
-                data = hdulist[0].data
+                data = hdulist[extnum].data
                 if i == 0:
-                    image_header_first_frame = hdulist[0].header
+                    image_header_first_frame = hdulist[extnum].header
                 hdulist.close()
                 image3d[i, :, :] += data
             # compute median
@@ -123,7 +130,7 @@ def main(args=None):
 
         # save results
         print("==> Generating output file: " + output_fits_filename + "...")
-        if args.add_header == "yes":
+        if args.add_header:
             hdu = fits.PrimaryHDU(image2d, image_header_first_frame)
         else:
             hdu = fits.PrimaryHDU(image2d)
