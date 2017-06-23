@@ -14,6 +14,7 @@ def setup_package():
         packages=find_packages('.'),
         entry_points={
             'console_scripts': [
+                'r6-addnf = rsix.addnf:main',
                 'r6-insert_keyword_in_FITS = rsix.insert_keyword_in_FITS:main'
             ],
             },
