@@ -15,6 +15,7 @@ def setup_package():
         entry_points={
             'console_scripts': [
                 'r6-addnf = rsix.addnf:main',
+                'r6-imath = rsix.imath:main',
                 'r6-imcombine = rsix.imcombine:main',
                 'r6-insert_keyword_in_FITS = rsix.insert_keyword_in_FITS:main'
             ],
