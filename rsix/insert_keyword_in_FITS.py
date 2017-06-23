@@ -28,7 +28,7 @@ def add_key_val(keyname, keyval, keytype, filename, extnum):
     if keytype not in funtype:
         raise ValueError('Undefined keyword type: ', keytype)
     with fits.open(filename, "update") as hdulist:
-        hdulist[0].header[keyname] = funtype[keytype](keyval)
+        hdulist[extnum].header[keyname] = funtype[keytype](keyval)
         print('>>> Inserting ' + keyname + '=' + keyval + ' in ' + filename)
 
 
