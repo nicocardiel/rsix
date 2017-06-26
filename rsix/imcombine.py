@@ -14,9 +14,9 @@ from subsets_of_fileinfo_from_txt import subsets_of_fileinfo_from_txt
 def main(args=None):
 
     # parse command-line options
-    parser = argparse.ArgumentParser(prog='icombine')
+    parser = argparse.ArgumentParser(prog='imcombine')
     parser.add_argument("input_list",
-                        help="txt file with list of images to be coadded")
+                        help="TXT file with list of images to be coadded")
     # if output_fits_filename == "@" the script expects a line in
     # the file input_list of the form:
     # @ <number> <label>
