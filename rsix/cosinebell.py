@@ -1,3 +1,9 @@
+from __future__ import division
+from __future__ import print_function
+
+import numpy as np
+
+
 def cosinebell(n, fraction):
     """Return a cosine bell spanning n pixels, masking a fraction of pixels
     
