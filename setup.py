@@ -20,7 +20,8 @@ def setup_package():
                 'r6-insert_keyword_in_FITS = rsix.insert_keyword_in_FITS:main',
                 'r6-replace_image = rsix.replace_image:main',
                 'r6-subsets_of_fileinfo_from_txt = ' +
-                    'rsix.subsets_of_fileinfo_from_txt:main'
+                    'rsix.subsets_of_fileinfo_from_txt:main',
+                'r6-ximplotxy = rsix.ximplotxy:main'
             ],
             },
         setup_requires=['rsix'],
