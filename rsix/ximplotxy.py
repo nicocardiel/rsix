@@ -34,7 +34,7 @@ def ximplotxy(x, y, plottype=None,
     if ylabel is not None:
         ax.set_ylabel(ylabel)
     if title is not None:
-        ax.set_titlel(title)
+        ax.set_title(title)
 
     if show:
         plt.show(block=False)
