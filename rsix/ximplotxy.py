@@ -11,18 +11,15 @@ from numina.array.display.pause_debugplot import pause_debugplot
 def ximplotxy(x, y, plottype=None,
               xlim=None, ylim=None, 
               xlabel=None, ylabel=None, title=None,
-              show=True,
-              debugplot=0):
-
-    # ToDo: use a dictionary in the argument list to transfer
-    #       arguments to plot()
+              show=True, debugplot=0,
+              **kwargs):
 
     fig = plt.figure()
     ax = fig.add_subplot(111)
     if plottype == 'semilog':
-        ax.semilogy(x, y)
+        ax.semilogy(x, y, **kwargs)
     else:
-        ax.plot(x, y)
+        ax.plot(x, y, **kwargs)
 
     if xlim is not None:
         ax.set_xlim(xlim)
@@ -54,6 +51,15 @@ def main(args=None):
     parser.add_argument("cols",
                         help="Tuple col1 col2",
                         type=int, nargs=2)
+    parser.add_argument("--kwargs",
+                        help="Extra arguments for plot, e.g.: "
+                             "{'marker':'o',"
+                             " 'linestyle':'dotted',"
+                             " 'xlabel':'x axis', 'ylabel':'y axis',"
+                             " 'title':'sample plot',"
+                             " 'xlim':[-1,1], ylim:[-2,2],"
+                             " 'label':'sample data',"
+                             " 'color':'magenta'}")
     args = parser.parse_args(args)
 
     # ASCII file
@@ -69,7 +75,10 @@ def main(args=None):
     x = bigtable[:, col1]
     y = bigtable[:, col2]
 
-    ximplotxy(x, y, debugplot=12)
+    if args.kwargs is None:
+        ximplotxy(x, y, debugplot=12, marker='o', linestyle='')
+    else:
+        ximplotxy(x, y, debugplot=12, **eval(args.kwargs))
 
 
 if __name__ == '__main__':
