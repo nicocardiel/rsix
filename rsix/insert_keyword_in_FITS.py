@@ -46,12 +46,14 @@ def main(args=None):
                         default='str',
                         choices = ['int', 'float', 'str', 'bool'])
     parser.add_argument('--extnum',
-                        help='Extension number (first extension is 1)',
+                        help='Extension number '
+                        '(first extension is 1 and not 0)',
                         default=1, type=int)
     args = parser.parse_args(args=args)
 
+    extnum = args.extnum - 1
     for f in args.filename:
-        add_key_val(args.keyname, args.keyval, args.keytype, f, args.extnum)
+        add_key_val(args.keyname, args.keyval, args.keytype, f, extnum)
 
 
 if __name__ == '__main__':
