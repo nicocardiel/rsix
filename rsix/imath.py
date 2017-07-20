@@ -88,7 +88,7 @@ def compute_operation(file1, file2, operation, output, display,
 
     # save output file
     hdu = fits.PrimaryHDU(solution.astype(np.float), image_header1)
-    hdu.writeto(output, clobber=True)
+    hdu.writeto(output, overwrite=True)
 
     # if required, display result
     if display in ['all', 'result']:
