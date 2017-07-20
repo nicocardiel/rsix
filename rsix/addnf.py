@@ -157,14 +157,14 @@ def main(args=None):
             hdu = fits.PrimaryHDU(image2d, image_header_first_frame)
         else:
             hdu = fits.PrimaryHDU(image2d)
-        hdu.writeto(output_fits_filename, clobber=(not args.noclobber))
+        hdu.writeto(output_fits_filename, overwrite=(not args.noclobber))
 
         if args.out_nsum is not None:
             if debugplot >= 10:
                 print("==> Generating output file: " +
                       args.out_nsum.name + "...")
             hdu = fits.PrimaryHDU(image2d_nsum.astype(np.int16))
-            hdu.writeto(args.out_nsum, clobber=(not args.noclobber))
+            hdu.writeto(args.out_nsum, overwrite=(not args.noclobber))
 
         if debugplot >= 10:
             if args.average == "yes":
