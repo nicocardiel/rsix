@@ -8,7 +8,7 @@ from astropy.io import fits
 import numpy as np
 
 from numina.array.display.fileinfo import list_fileinfo_from_txt
-from subsets_of_fileinfo_from_txt import subsets_of_fileinfo_from_txt
+from .subsets_of_fileinfo_from_txt import subsets_of_fileinfo_from_txt
 
 
 def main(args=None):
