@@ -24,9 +24,13 @@ def main(args=None):
     # <label> is the name of the output file
     parser.add_argument("output_fits_filename",
                         help="filename of output FITS image, or @ symbol")
+    parser.add_argument("--factorcol",
+                        help="Column number with multiplicative factors",
+                        type=int)
     parser.add_argument("--offsetcol",
-                        help="Column number with offsets: final scan = "
-                        "old scan + offset (default=None)", type=int)
+                        help="Column number with offsets:\n "
+                             "final scan = old scan + offset (default=None)",
+                        type=int)
     parser.add_argument("--average",
                         help="average result",
                         action="store_true")
@@ -80,6 +84,14 @@ def main(args=None):
             for i in range(number_of_files):
                 offsets[i] = list_of_infos[i][args.offsetcol - 2]
 
+        # if there are multiplicative factors, check that all
+        # the numbers are provided
+        multfactors = np.ones(number_of_files, dtype=np.float)
+        if args.factorcol is not None:
+            for i in range(number_of_files):
+                multfactors[i] = list_of_infos[i][args.factorcol - 2]
+
+
         # declare auxiliary arrays to store image basic parameters
         naxis1 = np.zeros(number_of_files, dtype=np.int)
         naxis2 = np.zeros(number_of_files, dtype=np.int)
@@ -115,11 +127,13 @@ def main(args=None):
                 print("<--" + infile +
                       " (image " + str(i + 1) + " of " +
                       str(number_of_files) + ")  offset: " +
-                      str(offsets[i]))
+                      str(offsets[i]) + "  factor: " +
+                      str(multfactors[i])
+                      )
 
             infile = list_of_files[i]
             hdulist = fits.open(infile)
-            data = hdulist[0].data
+            data = hdulist[0].data * multfactors[i]
             if i == 0:
                 image_header_first_frame = hdulist[0].header
             hdulist.close()
