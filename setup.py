@@ -14,12 +14,7 @@ def setup_package():
         packages=find_packages('.'),
         entry_points={
             'console_scripts': [
-                'r6-addnf = rsix.addnf:main',
-                'r6-imcombine = rsix.imcombine:main',
-                'r6-insert_keyword_in_FITS = rsix.insert_keyword_in_FITS:main',
-                'r6-replace_image = rsix.replace_image:main',
-                'r6-subsets_of_fileinfo_from_txt = ' +
-                    'rsix.subsets_of_fileinfo_from_txt:main'
+                'r6-version = rsix.version:main'
             ],
             },
         setup_requires=['rsix'],
